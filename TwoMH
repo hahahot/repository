@@ -1,0 +1,157 @@
+// Two Client Mildae Hellper
+
+Gui, +AlwaysOnTop -Caption +Border +ToolWindow 
+Gui, Color, FFFFFF
+Gui, Add, Picture, x0 y10 BackgroundTrans, C:\Mildae\1.png
+Gui, Add, CheckBox, x10 y135 w60 h20 checked, 기원
+Gui, Add, CheckBox, x10 y157 w60 h20 vC2, 명상
+Gui, Add, CheckBox, x10 y179 w60 h20 vC3, 금불
+Gui, Add, Text, x10 y205 w60 h20 , / : 혼마
+Gui, Add, DropDownList, x70 y134 w50 h60 vD1, 3||
+Gui, Add, DropDownList, x70 y156 w50 h60 vD2, 9||
+Gui, Add, DropDownList, x70 y178 w50 h60 vD3, 8||
+Gui, Add, DropDownList, x70 y200 w50 h60 vD4, 7||
+Gui, Show, x600 y305 h235 w132, Mildae
+
+WinSet, Transparent, 220 , Mildae
+WinSet, Region, R0-0 W132 H235 0-0
+OnMessage(0x201, "WM_LBUTTONDOWN") 
+WM_LBUTTONDOWN() 
+{ 
+PostMessage, 0xA1, 2,,, A 
+}
+pause, on
+return
+
+
+
+^1::
+Gui, Submit, Nohide
+WinGet, pidn1, PID, A
+WinMove,ahk_pid %pidn1%,,0, 0
+Sleep, 500
+msgbox, 적용되었습니다.
+GuicontrolGet, C2
+if C2 = 1
+{
+Settimer, Mng, 2000
+}
+GuicontrolGet, C3
+if C3 = 1
+{
+Settimer, Gmb, 3700
+}
+Settimer, Hal, 300
+Settimer, Mve, 200
+return
+
+
+Hal:
+Thread, NoTimers
+ControlSend,,{2},ahk_pid %pidn1%
+Sleep, 57
+ControlSend,,{3},ahk_pid %pidn1%
+Sleep, 57
+ControlSend,,{3},ahk_pid %pidn1%
+Sleep, 57
+ControlSend,,{3},ahk_pid %pidn1%
+Sleep, 57
+ControlSend,,{3},ahk_pid %pidn1%
+return
+
+Mve:
+Thread, NoTimers
+Imagesearch, va, vb, 1, 30, 820, 750, *10 C:\Mildae\2.bmp
+Imagesearch, vx, vy, 1, 30, 820, 750, *10 C:\Mildae\1.bmp
+If Errorlevel = 0
+{
+if (vx-60>va)
+ControlSend,,{Right},ahk_pid %pidn1% 
+if (vx+45<va)
+ControlSend,,{Left},ahk_pid %pidn1% 
+if (vy+70>vb)
+ControlSend,,{Down},ahk_pid %pidn1% 
+if (vy+110<vb)
+ControlSend,,{Up},ahk_pid %pidn1% 
+}
+return
+
+Mng:
+Thread, NoTimers
+Imagesearch, vx, vy, 1, 30, 200, 500, *50 C:\Mildae\6.bmp
+If Errorlevel =1
+{
+ControlSend,,{9},ahk_pid %pidn1% 
+Sleep, 1700
+}
+return
+
+
+Gmb:
+Thread, NoTimers
+ControlSend,,{8},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{8},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{8},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{8},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{8},ahk_pid %pidn1% 
+return
+
+
+.::
+ControlSend,,{Esc},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{3},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{Home},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{Enter},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{Tab},ahk_pid %pidn1% 
+ControlSend,,{Tab},ahk_pid %pidn1% 
+return
+
+/::
+ControlSend,,{Esc},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{7},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{Right},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{Enter},ahk_pid %pidn1% 
+Sleep, 50
+ControlSend,,{Tab},ahk_pid %pidn1% 
+ControlSend,,{Tab},ahk_pid %pidn1% 
+return
+
+Left::
+Sendinput, {Left}
+ControlSend,,{Left},ahk_pid %pidn1% 
+return
+
+Right::
+Sendinput, {Right}
+ControlSend,,{Right},ahk_pid %pidn1% 
+return
+
+Up::
+Sendinput, {Up}
+ControlSend,,{Up},ahk_pid %pidn1% 
+return
+
+Down::
+Sendinput, {Down}
+ControlSend,,{Down},ahk_pid %pidn1% 
+return
+
+GuiClose:
+ExitApp
+return
+
+GuiContextMenu:
+ExitApp
+
+`::pause
