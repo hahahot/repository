@@ -1,0 +1,19 @@
+//Simple Macro 1 , Using Hotkey & Sub routine
+
+
+F1::
+Settimer, SubR1, 1000
+Settimer, SubR2, 1000
+return
+
+SubR1:
+SendInput, {v}
+return
+
+SubR2:
+SendInput, {f}
+return
+
+
+F2::
+ExitApp
