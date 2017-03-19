@@ -1,0 +1,102 @@
+mvar=1
+svar=00
+
+SetBatchlines, -1
+Setcontroldelay, -1
+Gui,1: +AlwaysOnTop -Caption +Border +ToolWindow 
+Gui,1: Color, FFFFFF
+Gui,1: Font, s16 w800
+Gui,1: Add, Text, x40 y100 right vmvar,001
+Gui,1: Add, Text, x90 y100 vsvarl,:00
+Gui,1: Font, s8 w400
+Gui,1: Add, Button, x20 y140 w60 h28, Add
+Gui,1: Add, Button, x95 y140 w60 h28 vstop Disabled Hidden, Stop
+Gui,1: Add, Button, x95 y140 w60 h28 vstart , Start
+
+Gui,1: Show, x600 y310 h181 w171, Timer
+
+WinSet, Transparent, 240 , Timer
+WinSet, Region, R0-0 W171 H181 0-0
+OnMessage(0x201, "WM_LBUTTONDOWN") 
+WM_LBUTTONDOWN() 
+{ 
+PostMessage, 0xA1, 2,,, A 
+}
+return
+
+
+
+GuiClose:
+Gui, destroy
+ExitApp
+
+
+GuiContextMenu:
+ExitApp
+
+
+ButtonAdd:
+envadd, mvar, 1
+if mvar>600
+{
+mvar= 5
+svar=00
+}
+
+StringLen, lensv, svar
+if lensv=2
+svar=%svar%
+if lensv=1
+svar=0%svar%
+
+StringLeft, svarl, svar, 2
+Guicontrol, Text, mvar, %mvar%
+Guicontrol, Text, svarl, :%svar%
+return
+
+ButtonStop:
+Settimer, time, off
+GuiControl,disable,stop
+Guicontrol,hide,stop
+Guicontrol,enable,start
+Guicontrol,show, start
+return
+
+ButtonStart:
+Guicontrol,disable,start
+Guicontrol,hide,start
+Guicontrol,enable,stop
+Guicontrol,show,stop
+SetTimer, time, 1000
+return
+
+
+time:
+envsub, svar, 1
+if svar<0
+{
+svar:=59
+envsub,mvar,1
+}
+
+if mvar<0
+{
+gui, destroy
+loop
+{
+SoundPlay, C:\Collide.mp3
+Msgbox, 하하하하하하핫
+break
+}
+}
+
+StringLen, lensv, svar
+if lensv = 2
+svar=%svar%
+if lensv=1
+svar=0%svar%
+
+StringLeft, svarl, svar, 2
+Guicontrol, Text, mvar, %mvar%
+Guicontrol, Text, svarl, :%svarl%
+return
