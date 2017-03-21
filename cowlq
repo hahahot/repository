@@ -1,0 +1,133 @@
+#NoEnv
+#SingleInstance force
+
+SetKeyDelay, -1
+SetWinDelay,-1
+SetBatchLines,-1
+SetControlDelay,-1
+
+Gui,1: +AlwaysOnTop -Caption +Border +ToolWindow 
+Gui,1: Color, FFFFFF
+Gui,1: Add, Text, x40 y20 w120 h20 , ★채광 , 채집매크로★
+Gui,1: Add, Text, x40 y40 w50 h20 , F1 시작
+Gui,1: Add, Text, x40 y60 w90 h20 , F2 정지/재시작
+Gui,1: Add, Text, x40 y80 w50 h20 , F3 종료
+Gui,1: Add, Text, x40 y134 w40 h20 , 이속
+Gui,1: Add, Text, x40 y114 w110 h20 , 채집키    : Space
+Gui,1: Add, Text, x40 y154 w49 h20 , 반복횟수
+Gui,1: Add, Edit, x95 y130 w50 h20 vE1,
+Gui,1: Add, Text, x68 y174 w90 h20 vA, 0 회 째 채광중
+Gui,1: Add, Edit, x95 y150 w50 h20 hWndhWnd vB,
+Gui,1: Add, Text, x97 y151 w48 h19 0x200 BackgroundTrans, % "0 = 무한" 
+Gui,1: Add, ComboBox, x152 y110 w50 h80 vC Choose1, 채광|채집
+
+Gui,1: Add, Text, x40 y210 w180 h40 cgreen, 쥬쥬님 채집매크로 리메이크 `n          by designed 하하핫
+Gui,1: Show, x600 y310 h250 w230, 채집
+
+WinSet, Transparent, 235 , 채집
+WinSet, Region, R0-0 W230 H250 0-0
+OnMessage(0x201, "WM_LBUTTONDOWN") 
+WM_LBUTTONDOWN() 
+{ 
+PostMessage, 0xA1, 2,,, A 
+}
+return
+
+F1::
+Gui,Submit,nohide
+ConVar:=139.99/E1
+{
+
+ 반복중인횟수 := 0
+ 
+ While((반복중인횟수<B) || (B = 0))
+ {
+  if(C = "채광")
+  {
+  Sendinput, {left down}
+  sleep, ConVar*500
+  Sendinput, {left up}
+  sleep, 500
+  Sendinput, {space}
+  반복중인횟수 := 반복중인횟수 + 1
+  Gui,Submit,nohide  
+  GuiControl, , A, %반복중인횟수% 회 째 채광중
+   if(반복중인횟수 = B)
+   {
+    break
+   }
+  sleep, 4000
+  Sendinput, {left down}
+  sleep, ConVar*1650
+  Sendinput, {left up}
+  sleep, 500
+  Sendinput, {space}
+  반복중인횟수 := 반복중인횟수 + 1
+  Gui,Submit,nohide
+  GuiControl, , A, %반복중인횟수% 회 째 채광중
+  sleep, 4000
+  Sendinput, {right down}
+  sleep, ConVar*2200
+  Sendinput, {right up}
+  sleep, 500
+  Sendinput, {down down}
+  sleep, 100
+  Sendinput, {down up}
+  sleep, 100
+  Sendinput, {up down}
+  sleep, 200
+  Sendinput, {up up}
+  sleep, 2000
+  }
+  if(C = "채집")
+  {
+  Sendinput, {space}
+  반복중인횟수 := 반복중인횟수 + 1
+  Gui,Submit,nohide  
+  GuiControl, , A, %반복중인횟수% 회 째 채집중
+   if(반복중인횟수 = B)
+   {
+    break
+   }
+  sleep, 4000
+  Sendinput, {right down}
+  sleep, 1550
+  Sendinput, {right up}
+  sleep, 1000
+  Sendinput, {down down}
+  sleep, 300
+  Sendinput, {alt}
+  sleep, 100
+  Sendinput, {down up}
+  sleep, 1600
+  Sendinput, {space}
+  반복중인횟수 := 반복중인횟수 + 1
+  Gui,Submit,nohide
+  GuiControl, , A, %반복중인횟수% 회 째 채집중
+  sleep, 4000
+  Sendinput, {left down}
+  sleep, 1530
+  Sendinput, {left up}
+  sleep, 1000
+  Sendinput, {alt}
+  sleep, 200
+  Sendinput, {up down}
+  sleep, 1100
+  Sendinput, {up up}
+  sleep, 1000
+  }
+ }
+}
+return
+
+GuiClose:
+ExitApp
+return
+
+GuiContextMenu:
+ExitApp
+return
+
+F2::Pause
+
+F3::ExitApp
