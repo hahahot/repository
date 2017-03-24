@@ -91,7 +91,7 @@ ConVar:=139.99/E1
    }
   sleep, 4000
   Sendinput, {right down}
-  sleep, 1550
+  sleep, ConVar*1550
   Sendinput, {right up}
   sleep, 1000
   Sendinput, {down down}
@@ -106,7 +106,7 @@ ConVar:=139.99/E1
   GuiControl, , A, %반복중인횟수% 회 째 채집중
   sleep, 4000
   Sendinput, {left down}
-  sleep, 1530
+  sleep, ConVar*1530
   Sendinput, {left up}
   sleep, 1000
   Sendinput, {alt}
