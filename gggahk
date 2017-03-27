@@ -1,0 +1,125 @@
+#NoEnv
+#SingleInstance force
+
+SetKeyDelay, -1
+SetWinDelay,-1
+SetBatchLines,-1
+SetControlDelay,-1
+
+CoordMode, Pixel, Screen
+
+Gui,1: +AlwaysOnTop -Caption +Border +ToolWindow 
+Gui,1: Color, FFFFFF
+Gui,1: Add, Picture, x20 y15 BackgroundTrans, C:\Baram04\Bground.png
+Gui,1: Add, Picture, x150 y21 BackgroundTrans , C:\Baram04\Bground2.png
+Gui,1: Add, Picture, x150 y58 BackgroundTrans , C:\baram04\Bground3.png
+Gui,1: Add, Edit, x230 y30 h20 w140 , 격전지1
+Gui,1: Add, Edit, x230 y67 h20 w140 , 격전지2
+Gui,1: Add, Text, x120 y100 h20 w250, F1  :  격전지1 화면을 해당위치로 옮긴다.
+Gui,1: Add, Text, x120 y120 h20 w250, F2  :  일시정지 on / off
+Gui,1: Add, Text, x120 y140 h20 w250, 2  :  격전지1 캐릭터의 즉시시전스킬(공증)
+
+Gui,1: Show, x600 y310 h180 w400, gggahk
+
+WinSet, Transparent, 235 ,gggahk
+WinSet, Region, R0-0 W400 H180 0-0
+OnMessage(0x201, "WM_LBUTTONDOWN") 
+WM_LBUTTONDOWN() 
+{ 
+PostMessage, 0xA1, 2,,, A 
+}
+Settimer, a1, 1500
+return
+
+;#########################################################################
+
+F1::
+WinMove, 격전지1,,-840, 0
+return
+
+
+F2::
+Pause
+return
+
+
+!F1::
+Gui, Submit, Nohide
+WinGet, pidn1, PID, A
+Sleep, 500
+WinSetTitle, ahk_pid %pidn1%,, 격전지1
+Sleep, 50
+return
+
+!F2::
+Gui, Submit, Nohide
+WinGet, pidn1, PID, A
+Sleep, 500
+WinSetTitle, ahk_pid %pidn1%,, 격전지2
+Sleep, 50
+return
+
+
+;#########################################################################
+
+a1:
+Thread, NoTimers
+Gui,Submit,Nohide
+Imagesearch, vx, vy, 0, 565, 160, 650, C:\baram04\df.bmp
+If Errorlevel = 0
+{
+ControlSend,,{2}, 격전지1
+Sleep, 150
+ControlSend,,{2}, 격전지1
+Sleep, 150
+ControlSend,,{2}, 격전지1
+Sleep, 150
+ControlSend,,{2}, 격전지1
+Sleep, 150
+ControlSend,,{2}, 격전지1
+Sleep, 500
+ControlSend,,{Down}, 격전지1
+ControlSend,,{Down}, 격전지2
+Sleep, 800
+ControlSend,,{Down}, 격전지1
+ControlSend,,{Down}, 격전지2
+Settimer, b1, 1500
+Settimer, a1, off
+}
+return
+
+b1:
+Thread, NoTimers
+Gui,Submit,Nohide
+Imagesearch, vx, vy, 0, 565, 160, 650, C:\baram04\df.bmp
+If Errorlevel = 0
+{
+ControlSend,,{2}, 격전지1
+Sleep, 150
+ControlSend,,{2}, 격전지1
+Sleep, 150
+ControlSend,,{2}, 격전지1
+Sleep, 150
+ControlSend,,{2}, 격전지1
+Sleep, 150
+ControlSend,,{2}, 격전지1
+Sleep,500
+ControlSend,,{Up}, 격전지1
+ControlSend,,{Up}, 격전지2
+Sleep, 800
+ControlSend,,{Up}, 격전지1
+ControlSend,,{Up}, 격전지2
+Settimer, b1, off
+Settimer, a1, on
+}
+return
+
+;#########################################################################
+
+GuiClose:
+ExitApp
+return
+
+GuiContextMenu:
+ExitApp
+return
