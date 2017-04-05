@@ -1,0 +1,35 @@
+#Include, C:\MLib\Gdip.ahk
+SetBatchLines,-1
+Gui, Add, Edit, x20 y5 w100 h20 hWndhWnd vE1,
+Gui, Add, Edit, x20 y5 w100 h19 0x200 BackgroundTrans, % "이미지명"
+Gui, Add, Text, x10 y34 w8 h20, x
+Gui, Add, Text, x65 y34 w8 h20, y
+Gui, Add, Text, x8 y64 w10 h20, w
+Gui, Add, Text, x65 y64 w8 h20, h
+Gui, Add, Edit, x20 y30 w40 h20 vEx1,
+Gui, Add, Edit, x75 y30 w40 h20 vEy1,
+Gui, Add, Edit, x20 y60 w40 h20 vEx2,
+Gui, Add, Edit, x75 y60 w40 h20 vEy2,
+Gui, Add, Button, x130 y30 w60 h20 gBn, Cafe
+Gui, Add, Button, x130 y60 w60 h20 gBtn, Capture
+Gui, Add, Text, x10 y90 w200 h20, Created by.    Brand You Cafe
+Gui, Show, x300 y300 w200 h110, imagecap
+return
+return
+Bn:
+run, http://cafe.naver.com/brandui
+return
+Btn:
+Gui, Submit, Nohide
+Pos = %Ex1%|%Ey1%|%Ex2%|%Ey2%
+ImageFile = %E1%
+pToken:=Gdip_Startup()
+pBitmap:=Gdip_BitmapFromScreen(Pos)
+Gdip_SetBitmapToClipboard(pBitmap)
+Gdip_SaveBitmapToFile(pBitmap,ImageFile)
+Gdip_DisposeImage(pBitmap)
+Gdip_Shutdown(pToken)
+return
+GuiClose:
+ExitApp
+return
